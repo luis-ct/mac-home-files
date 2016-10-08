@@ -47,7 +47,7 @@ GIT_PS1_SHOWUPSTREAM=auto
 GIT_PS1_SHOWCOLORHINTS=true
 
 if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
+    source ~/.bashrc
 fi
 
 #   -------------------------------
@@ -94,9 +94,12 @@ teamcity_down() {
 #   Change Prompt
 #   ------------------------------------------------------------
 # Prompt git
-AUX='$(__git_ps1 "%s" yes)'
+AUX=""
+if [ -f ~/.git-prompt-mac.sh ]; then
+	AUX='$(__git_ps1 "%s" yes)'
+fi
 
-export PS1="___________________________________________________\n| \$? $FMAG\h$RS@$FMAG[\u]:$FCYN\w$RS $AUX$ "
+export PS1="___________________________________________________\n| \$? $FMAG\h$RS@$FMAG[\u]:$FCYN\w$RS $AUX\n$ "
 export PS2="| $ "
 
 #   Set Default Editor (change 'Nano' to the editor of your choice)
