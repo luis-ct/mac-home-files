@@ -16,28 +16,6 @@
 #
 #  ---------------------------------------------------------------------------
 
-# ANSI color codes
-RS="\[\033[0m\]"    # reset
-HC="\[\033[1m\]"    # hicolor
-UL="\[\033[4m\]"    # underline
-INV="\[\033[7m\]"   # inverse background and foreground
-FBLK="\[\033[30m\]" # foreground black
-FRED="\[\033[31m\]" # foreground red
-FGRN="\[\033[32m\]" # foreground green
-FYEL="\[\033[33m\]" # foreground yellow
-FBLE="\[\033[34m\]" # foreground blue
-FMAG="\[\033[35m\]" # foreground magenta
-FCYN="\[\033[36m\]" # foreground cyan
-FWHT="\[\033[37m\]" # foreground white
-BBLK="\[\033[40m\]" # background black
-BRED="\[\033[41m\]" # background red
-BGRN="\[\033[42m\]" # background green
-BYEL="\[\033[43m\]" # background yellow
-BBLE="\[\033[44m\]" # background blue
-BMAG="\[\033[45m\]" # background magenta
-BCYN="\[\033[46m\]" # background cyan
-BWHT="\[\033[47m\]" # background white
-
 GIT_PS1_SHOWDIRTYSTATE=0
 GIT_PS1_SHOWSTASHSTATE=0
 # If there're untracked files, then a '%' will be shown next to the branch name
@@ -54,10 +32,12 @@ fi
 #   1. ENVIRONMENT CONFIGURATION
 #   -------------------------------
 
-GIT=/Volumes/Datos/GIT
 DATOS=/Volumes/Datos
-WORKSPACES=/Volumes/Datos/WORKSPACES
+GIT=/Volumes/Datos/GIT
+PERSONAL=/Volumes/Datos/PERSONAL
 SPACES=/Volumes/Datos/SPACES
+WORKSPACES=/Volumes/Datos/WORKSPACES
+VAGRANT=/Volumes/Datos/WORKSPACES/VAGRANT
 
 #   Set Paths
 #   ------------------------------------------------------------
@@ -81,18 +61,51 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 ###################
 
 teamcity_up() {
-    cd $SPACES/TeamCity/bin
-    ./runAll.sh start
+	cd $SPACES/TeamCity/bin
+	./runAll.sh start
 }
 
 teamcity_down() {
-    cd $SPACES/TeamCity/bin
-    ./runAll.sh stop
+	cd $SPACES/TeamCity/bin
+	./runAll.sh stop
 }
 
+# aliasses jenkins
+###################
+
+jenkins_up() {
+	sudo launchctl load /Library/LaunchDaemons/org.jenkins-ci.plist
+}
+
+jenkins_down() {
+	sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
+}
 
 #   Change Prompt
 #   ------------------------------------------------------------
+
+# ANSI color codes
+RS="\[\033[0m\]"    # reset
+HC="\[\033[1m\]"    # hicolor
+UL="\[\033[4m\]"    # underline
+INV="\[\033[7m\]"   # inverse background and foreground
+FBLK="\[\033[30m\]" # foreground black
+FRED="\[\033[31m\]" # foreground red
+FGRN="\[\033[32m\]" # foreground green
+FYEL="\[\033[33m\]" # foreground yellow
+FBLE="\[\033[34m\]" # foreground blue
+FMAG="\[\033[35m\]" # foreground magenta
+FCYN="\[\033[36m\]" # foreground cyan
+FWHT="\[\033[37m\]" # foreground white
+BBLK="\[\033[40m\]" # background black
+BRED="\[\033[41m\]" # background red
+BGRN="\[\033[42m\]" # background green
+BYEL="\[\033[43m\]" # background yellow
+BBLE="\[\033[44m\]" # background blue
+BMAG="\[\033[45m\]" # background magenta
+BCYN="\[\033[46m\]" # background cyan
+BWHT="\[\033[47m\]" # background white
+
 # Prompt git
 AUX=""
 if [ -f ~/.git-prompt-mac.sh ]; then
