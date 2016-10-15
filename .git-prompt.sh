@@ -87,7 +87,7 @@
 # If you would like a colored hint about the current dirty state, set
 # GIT_PS1_SHOWCOLORHINTS to a nonempty value. The colors are based on
 # the colored output of "git status -sb" and are available only when
-# using __git_ps1 for MPT_COMMAND or precmd.
+# using __git_ps1 for PROMPT_COMMAND or precmd.
 #
 # If you would like __git_ps1 to do nothing in the case when the current
 # directory is set up to be ignored by git, then set
@@ -109,7 +109,6 @@ __git_ps1_show_upstream ()
 	svn_remote=()
 	# get some config options from git-config
 	local output="$(git config -z --get-regexp '^(svn-remote\..*\.url|bash\.showupstream)$' 2>/dev/null | tr '\0\n' '\n ')"
-	
 	while read -r key value; do
 		case "$key" in
 		bash.showupstream)
@@ -168,7 +167,6 @@ __git_ps1_show_upstream ()
 	esac
 
 	# Find how many commits we are ahead/behind our upstream
-	# count: Commits behind		commits ahead
 	count="0	0"
 	if [[ -z "$legacy" ]]; then
 		count="$(git rev-list --count --left-right \
@@ -250,12 +248,12 @@ __git_ps1_colorize_gitstring ()
 	else
 		# Using \[ and \] around colors is necessary to prevent
 		# issues with command line editing/browsing/completion!
-		local c_red="\033[31m"
-		local c_green="\033[32m"
-		local c_lblue="\033[34m"
-		local c_yellow="\033[33m"
-		local c_magenta="\033[35m"
-		local c_clear="\033[0m"
+		local c_red='\[\e[31m\]'
+		local c_green='\[\e[32m\]'
+		local c_lblue='\[\e[1;34m\]'
+		local c_yellow='\[\e[1;33m\]'
+		local c_magenta='\[\e[1;35m\]'
+		local c_clear='\[\e[0m\]'
 	fi
 	local bad_color=$c_red
 	local ok_color=$c_green
@@ -285,6 +283,7 @@ __git_ps1_colorize_gitstring ()
 		branch_color="$bad_color"
 	fi
 	c="$branch_color$c"
+	p="$branch_color$p$c_clear"
 
 	r="$c_clear$r"
 }
@@ -313,15 +312,23 @@ __git_ps1 ()
 	local exit=$?
 	local pcmode=no
 	local detached=no
+	local ps1pc_start='\u@\h:\w '
+	local ps1pc_end='\$ '
 	local printf_format=' (%s)'
 
 	case "$#" in
-		0|1|2)
-			printf_format="${1:-$printf_format}"
-			pcmode=${2:+yes}
+		2|3)	pcmode=yes
+			ps1pc_start="$1"
+			ps1pc_end="$2"
+			printf_format="${3:-$printf_format}"
+			# set PS1 to a plain prompt so that we can
+			# simply return early if the prompt should not
+			# be decorated
+			PS1="$ps1pc_start$ps1pc_end"
 		;;
-		*)
-			return $exit
+		0|1)	printf_format="${1:-$printf_format}"
+		;;
+		*)	return $exit
 		;;
 	esac
 
@@ -358,12 +365,9 @@ __git_ps1 ()
 	# shell and safer than the alternative if the assumption is
 	# incorrect.)
 	#
-	# local ps1_expanded=yes
-	# [ -z "${ZSH_VERSION-}" ] || [[ -o PROMPT_SUBST ]] || ps1_expanded=no
-	# [ -z "${BASH_VERSION-}" ] || shopt -q promptvars || ps1_expanded=no
-
-	# Mac
-	local ps1_expanded=no
+	local ps1_expanded=yes
+	[ -z "${ZSH_VERSION-}" ] || [[ -o PROMPT_SUBST ]] || ps1_expanded=no
+	[ -z "${BASH_VERSION-}" ] || shopt -q promptvars || ps1_expanded=no
 
 	local repo_info rev_parse_exit_code
 	repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
@@ -499,7 +503,7 @@ __git_ps1 ()
 		   [ "$(git config --bool bash.showUntrackedFiles)" != "false" ] &&
 		   git ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ':/*' >/dev/null 2>/dev/null
 		then
-			u="%%${ZSH_VERSION+%}"
+			u="%${ZSH_VERSION+%}"
 		fi
 
 		if [ -n "${GIT_PS1_SHOWUPSTREAM-}" ]; then
@@ -517,20 +521,21 @@ __git_ps1 ()
 	b=${b##refs/heads/}
 	if [ $pcmode = yes ] && [ $ps1_expanded = yes ]; then
 		__git_ps1_branch_name=$b
-		b="\\$__git_ps1_branch_name"
+		b="\${__git_ps1_branch_name}"
 	fi
 
 	local f="$w$i$s$u"
-	local gitformat="$c$printf_format$p${f:+$z$f}$r "
+	local gitstring="$c$b${f:+$z$f}$r$p"
 
 	if [ $pcmode = yes ]; then
 		if [ "${__git_printf_supports_v-}" != yes ]; then
-			gitformat=$(printf -- "$gitformat" "$b")
+			gitstring=$(printf -- "$printf_format" "$gitstring")
 		else
-			printf -- "$gitformat" "$b"
+			printf -v gitstring -- "$printf_format" "$gitstring"
 		fi
+		PS1="$ps1pc_start$gitstring$ps1pc_end"
 	else
-		printf -- "$gitformat" "$b"
+		printf -- "$printf_format" "$gitstring"
 	fi
 
 	return $exit

@@ -112,7 +112,10 @@ if [ -f ~/.git-prompt-mac.sh ]; then
 	AUX='$(__git_ps1 "%s" yes)'
 fi
 
-export PS1="___________________________________________________\n| \$? $FMAG\h$RS@$FMAG[\u]:$FCYN\w$RS $AUX\n$ "
+START="___________________________________________________\n| \$? $FMAG\h$RS@$FMAG[\u]:$FCYN\w$RS"
+END=" \n$ "
+FORMAT=" %s "
+PROMPT_COMMAND='__git_ps1 "$START" "$END" "$FORMAT"'
 export PS2="| $ "
 
 #   Set Default Editor (change 'Nano' to the editor of your choice)
