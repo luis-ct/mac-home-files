@@ -1,3 +1,6 @@
+" Global settings
+filetype plugin indent on
+
 syntax enable
 
 " Spaces & Tabs
@@ -11,8 +14,6 @@ set list listchars=tab:>-,trail:·
 " Allow backspacing over everything in insert mode.
 set backspace=indent,eol,start
 
-set textwidth=80
-
 set showmatch       " set show matching parenthesis
 
 " Use UTF-8 as the default text encoding
@@ -20,6 +21,8 @@ set encoding=utf-8
 
 " UI Config
 set number
+set ruler
+
 " set cursorline      " highlight current line
 set wildmenu        " visual autocomplete for command menu
 set visualbell      " Use visual bell instead of beeping when doing something wrong
