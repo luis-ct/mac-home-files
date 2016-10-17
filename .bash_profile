@@ -16,10 +16,10 @@
 #
 #  ---------------------------------------------------------------------------
 
-GIT_PS1_SHOWDIRTYSTATE=0
-GIT_PS1_SHOWSTASHSTATE=0
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWSTASHSTATE=true
 # If there're untracked files, then a '%' will be shown next to the branch name
-GIT_PS1_SHOWUNTRACKEDFILES=0
+GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWUPSTREAM=auto
 # A colored hint about the current dirty state
 GIT_PS1_SHOWCOLORHINTS=true
