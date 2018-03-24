@@ -1,5 +1,47 @@
-[user]
-	name = luis.canadas
-	email = luiscanadas@gmail.com
 [core]
 	editor = vim
+
+[alias]
+	co = checkout
+	st = status
+	ci = commit
+	numstatbyuser = "!f() { \
+		git log --author=$1 --no-merges --pretty=\"\" --numstat | awk 'BEGIN { \
+				insertions = 0; \
+				deletions = 0; \
+			} { \
+				OFS=\":\"; \
+				insertions = insertions + $1; \
+				deletions = deletions + $2; \
+			} END { \
+				print \"INSERTIONS: \" insertions; \
+				print \"DELETIONS: \" deletions; \
+			}'; \
+	}; f"
+	archive-master = "!f() { \
+		git archive master --prefix='project/' | gzip > master.tgz; \
+	}; f"
+
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[commit]
+	template = ~/.git-commit-template.txt
