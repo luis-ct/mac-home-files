@@ -3,24 +3,54 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc   # --> Read /etc/bashrc, if present.
 fi
 
-if [ -f ~/.git-completion.bash ]; then
-	source ~/.git-completion.bash
+if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
+	source /usr/local/git/contrib/completion/git-completion.bash
 fi
 
-if [ -f ~/.git-prompt.sh ]; then
-	source ~/.git-prompt.sh
+if [ -f /usr/local/git/contrib/completion/git-prompt.sh ]; then
+	source /usr/local/git/contrib/completion/git-prompt.sh
 fi
 
 
 # aliasses Vagrant
 ##################
-# vagrant_up() {
-#
-# }
-#
-# vagrant_down() {
-#
-# }
+vagrant_generic() {
+	if [ "$#" -eq 1 ]; then
+		COMMAND=$1
+		NAME=default
+		FOLDER=Centos7
+	elif [ "$#" -eq 2 ]; then
+		COMMAND=$1
+		NAME=$2
+		FOLDER=Centos7
+	elif [ "$#" -eq 3 ]; then
+		COMMAND=$1
+		NAME=$2
+		FOLDER=$3
+	else
+	    echo "Illegal number of parameters"
+		return 1
+	fi
+	pushd $VAGRANT/$FOLDER
+	vagrant $COMMAND $NAME
+	popd
+}
+
+vagrant_up() {
+	vagrant_generic up $1 $2
+}
+
+vagrant_down() {
+	vagrant_generic halt $1 $2
+}
+
+vagrant_ssh() {
+	vagrant_generic ssh $1 $2
+}
+
+vagrant_up_jira() {
+	vagrant_generic up default JIRA
+}
 
 # aliasses TeamCity
 ###################
@@ -30,10 +60,6 @@ teamcity_up() {
 	./runAll.sh start
 }
 
-teamcity_down() {
-	cd $SPACES/TeamCity/bin
-	./runAll.sh stop
-}
 
 # aliasses jenkins
 ###################
@@ -44,6 +70,39 @@ jenkins_up() {
 
 jenkins_down() {
 	sudo launchctl unload /Library/LaunchDaemons/org.jenkins-ci.plist
+
+	HOME_JENKINS="/Users/Shared/Jenkins/Home"
+	
+	NOW=$(date -u +"%d%m%Y_%H%M%S")
+	DIR_BACKUP="/Volumes/Datos/WORKSPACES/VAGRANT/JENKINS/backup/"$NOW
+	
+	echo "Backing up Jenkins..."
+	
+	echo "Creating backup directory $DIR_BACKUP"
+	sudo mkdir -p $DIR_BACKUP
+	cd $HOME_JENKINS
+
+	sudo cp -Rfv * $DIR_BACKUP
+	
+	echo "Compress $DIR_BACKUP directory"
+	cd $DIR_BACKUP
+	cd ..
+	sudo tar -czf $NOW.tar.gz $NOW
+	sudo rm -rf $NOW
+	
+	echo "Jenkins backup done."
+}
+
+start_servers() {
+	vagrant_up default JIRA ;
+	vagrant_up default BITBUCKET ;
+	jenkins_up ;
+}
+
+stop_servers() {
+	vagrant_down default JIRA ;
+	vagrant_down default BITBUCKET ;
+	jenkins_down ;
 }
 
 #   -----------------------------
@@ -201,7 +260,7 @@ ii() {
     echo -e "\n${RED}Current date :$NC " ; date
     echo -e "\n${RED}Machine stats :$NC " ; uptime
     echo -e "\n${RED}Current network location :$NC " ; scselect
-    echo -e "\n${RED}Public facing IP Address :$NC " ;myip
+    echo -e "\n${RED}Public facing IP Address :$NC " ; myip
     #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
     echo
 }

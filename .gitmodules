@@ -1,0 +1,3 @@
+[submodule "git-commit-template"]
+	path = git-commit-template
+	url = https://gist.github.com/cd4c95a064977cdc6c50.git
