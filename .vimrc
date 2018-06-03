@@ -33,3 +33,6 @@ set incsearch       " search as characters are entered
 set hlsearch        " highlight matches
 
 set mouse=a
+
+" To turn off autoindent when you paste code
+set paste

@@ -1,7 +1,9 @@
 [core]
 	editor = vim
+	excludesfile = /Users/luiscanadas/.gitexcludes
 
 [alias]
+	br = branch
 	co = checkout
 	st = status
 	ci = commit
