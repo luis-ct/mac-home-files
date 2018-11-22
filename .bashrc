@@ -14,6 +14,7 @@ fi
 
 # aliasses Vagrant
 ##################
+
 vagrant_generic() {
 	if [ "$#" -eq 1 ]; then
 		COMMAND=$1
@@ -60,6 +61,10 @@ teamcity_up() {
 	./runAll.sh start
 }
 
+teamcity_down() {
+	cd $SPACES/TeamCity/bin
+	./runAll.sh stop
+}
 
 # aliasses jenkins
 ###################
@@ -305,3 +310,26 @@ httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grab
 #   -------------------------------------------------------------------
 httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
 
+#   ---------------------------------------
+#   9. Disk 
+#   ---------------------------------------
+clean_xcode_data () {
+	du -sh /Users/Luis/Library/Developer/Xcode/DerivedData/
+	rm -rf /Users/Luis/Library/Developer/Xcode/DerivedData/*
+	du -sh /Users/Luis/Library/Developer/Xcode/DerivedData/
+	du -sh /Users/Luis/Library/Developer/Xcode/Archives/
+	rm -rf /Users/Luis/Library/Developer/Xcode/Archives/*
+	du -sh /Users/Luis/Library/Developer/Xcode/Archives/
+}
+
+#   ---------------------------------------
+#   10. Ggit 
+#   ---------------------------------------
+cleanup_git_project_branches () {
+	git branch -d $(git branch --merged=master | grep -v master)
+	git fetch --prune
+}
+
+remove_dsstores() {
+	find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+}
