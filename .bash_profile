@@ -28,12 +28,10 @@ GIT_PS1_SHOWCOLORHINTS=true
 #   1. ENVIRONMENT CONFIGURATION
 #   -------------------------------
 
-DATOS=/Volumes/Datos
-GIT=/Volumes/Datos/GIT
-PERSONAL=/Volumes/Datos/PERSONAL
-SPACES=/Volumes/Datos/SPACES
-WORKSPACES=/Volumes/Datos/WORKSPACES
-VAGRANT=/Volumes/Datos/WORKSPACES/VAGRANT
+WORKSPACES=/path/to/Workspaces
+DATOS=/path/to/DATOS
+PERSONAL=$DATOS/path/to/PERSONAL
+VAGRANT=$DATOS/path/to/VAGRANT
 
 #   Set Paths
 #   ------------------------------------------------------------
@@ -69,13 +67,7 @@ BMAG="\[\033[45m\]" # background magenta
 BCYN="\[\033[46m\]" # background cyan
 BWHT="\[\033[47m\]" # background white
 
-# Prompt git
-AUX=""
-if [ -f ~/.git-prompt-mac.sh ]; then
-	AUX='$(__git_ps1 "%s" yes)'
-fi
-
-START="___________________________________________________\n| \$? $FMAG\h$RS@$FMAG[\u]:$FCYN\w$RS"
+START="___________________________________________________\n| \$? $FMAG\H$RS@$FMAG[\u]:$FCYN\w$RS"
 END=" \n$ "
 FORMAT=" %s "
 PROMPT_COMMAND='__git_ps1 "$START" "$END" "$FORMAT"'
@@ -131,3 +123,8 @@ if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi
 
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
