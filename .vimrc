@@ -11,6 +11,8 @@ set autoindent
 set shiftwidth=4    " number of spaces to use for autoindenting
 set tabstop=4	    " number of visual spaces per TAB
 set softtabstop=4   " number of spaces in tab when editing
+" Display tabs and trailing spaces visually
+" set list listchars=tab:>-,trail:·
 
 " Allow backspacing over everything in insert mode.
 set backspace=indent,eol,start
