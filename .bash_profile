@@ -28,10 +28,12 @@ GIT_PS1_SHOWCOLORHINTS=true
 #   1. ENVIRONMENT CONFIGURATION
 #   -------------------------------
 
-WORKSPACES=/path/to/Workspaces
-DATOS=/path/to/DATOS
-PERSONAL=$DATOS/path/to/PERSONAL
-VAGRANT=$DATOS/path/to/VAGRANT
+WORKSPACES=/Volumes/Datos/WORKSPACES
+DATOS=/Volumes/Datos
+PERSONAL=$DATOS/PERSONAL
+VAGRANT=$DATOS/VAGRANT
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 #   Set Paths
 #   ------------------------------------------------------------
@@ -128,3 +130,5 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+
