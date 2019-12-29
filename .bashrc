@@ -1,3 +1,4 @@
+#!/bin/bash
 
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc   # --> Read /etc/bashrc, if present.
@@ -311,16 +312,18 @@ httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grab
 httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
 
 #   ---------------------------------------
-#   9. Disk 
+#   9. xCode 
 #   ---------------------------------------
 clean_xcode_data () {
-	du -sh /Users/Luis/Library/Developer/Xcode/DerivedData/
-	rm -rf /Users/Luis/Library/Developer/Xcode/DerivedData/*
-	du -sh /Users/Luis/Library/Developer/Xcode/DerivedData/
-	du -sh /Users/Luis/Library/Developer/Xcode/Archives/
-	rm -rf /Users/Luis/Library/Developer/Xcode/Archives/*
-	du -sh /Users/Luis/Library/Developer/Xcode/Archives/
+	du -sh /Users/admin/Library/Developer/Xcode/DerivedData/
+	rm -rf /Users/admin/Library/Developer/Xcode/DerivedData/*
+	du -sh /Users/admin/Library/Developer/Xcode/DerivedData/
+	du -sh /Users/admin/Library/Developer/Xcode/Archives/
+	rm -rf /Users/admin/Library/Developer/Xcode/Archives/*
+	du -sh /Users/admin/Library/Developer/Xcode/Archives/
 }
+
+alias xc='xed .'
 
 #   ---------------------------------------
 #   10. Ggit 
@@ -333,3 +336,8 @@ cleanup_git_project_branches () {
 remove_dsstores() {
 	find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
 }
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+export PATH=/bin:/usr/bin:$PATH
