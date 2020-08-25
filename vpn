@@ -1,0 +1,281 @@
+##############################################
+# Sample client-side OpenVPN 2.0 config file #
+# for connecting to multi-client server.     #
+#                                            #
+# This configuration can be used by multiple #
+# clients, however each client should have   #
+# its own cert and key files.                #
+#                                            #
+# On Windows, you might want to rename this  #
+# file so it has a .ovpn extension           #
+##############################################
+
+# Specify that we are a client and that we
+# will be pulling certain config file directives
+# from the server.
+client
+
+# Use the same setting as you are using on
+# the server.
+# On most systems, the VPN will not function
+# unless you partially or fully disable
+# the firewall for the TUN/TAP interface.
+;dev tap
+dev tun
+
+# Windows needs the TAP-Win32 adapter name
+# from the Network Connections panel
+# if you have more than one.  On XP SP2,
+# you may need to disable the firewall
+# for the TAP adapter.
+;dev-node MyTap
+
+# Are we connecting to a TCP or
+# UDP server?  Use the same setting as
+# on the server.
+;proto tcp
+proto udp
+
+# The hostname/IP and port of the server.
+# You can have multiple remote entries
+# to load balance between the servers.
+remote 62.81.185.230  1194
+;remote my-server-2 1194
+
+# Choose a random host from the remote
+# list for load-balancing.  Otherwise
+# try hosts in the order specified.
+;remote-random
+
+# Keep trying indefinitely to resolve the
+# host name of the OpenVPN server.  Very useful
+# on machines which are not permanently connected
+# to the internet such as laptops.
+resolv-retry infinite
+
+# Most clients don't need to bind to
+# a specific local port number.
+nobind
+
+# Downgrade privileges after initialization (non-Windows only)
+user nobody
+group nogroup
+
+# Try to preserve some state across restarts.
+persist-key
+persist-tun
+
+# If you are connecting through an
+# HTTP proxy to reach the actual OpenVPN
+# server, put the proxy server/IP and
+# port number here.  See the man page
+# if your proxy server requires
+# authentication.
+;http-proxy-retry # retry on connection failures
+;http-proxy [proxy server] [proxy port #]
+
+# Wireless networks often produce a lot
+# of duplicate packets.  Set this flag
+# to silence duplicate packet warnings.
+;mute-replay-warnings
+
+# SSL/TLS parms.
+# See the server config file for more
+# description.  It's best to use
+# a separate .crt/.key file pair
+# for each client.  A single ca
+# file can be used for all clients.
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIE2TCCA8GgAwIBAgIJAN+0E8z3pjuuMA0GCSqGSIb3DQEBCwUAMIGjMQswCQYD
+VQQGEwJFUzEMMAoGA1UECBMDTUFEMQ8wDQYDVQQHEwZNYWRyaWQxDjAMBgNVBAoT
+BUNpYmVyMRYwFAYDVQQLEw1DaWJlci1PcGVuVlBOMREwDwYDVQQDEwhDaWJlciBD
+QTEPMA0GA1UEKRMGc2VydmVyMSkwJwYJKoZIhvcNAQkBFhpjYXJsb3MuZG9taW5n
+dWV6QGNpYmVyLmNvbTAeFw0xNTA1MTMxNTMxMjVaFw0yNTA1MTAxNTMxMjVaMIGj
+MQswCQYDVQQGEwJFUzEMMAoGA1UECBMDTUFEMQ8wDQYDVQQHEwZNYWRyaWQxDjAM
+BgNVBAoTBUNpYmVyMRYwFAYDVQQLEw1DaWJlci1PcGVuVlBOMREwDwYDVQQDEwhD
+aWJlciBDQTEPMA0GA1UEKRMGc2VydmVyMSkwJwYJKoZIhvcNAQkBFhpjYXJsb3Mu
+ZG9taW5ndWV6QGNpYmVyLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBALlaYPXkoRhYCj1JYHF2Xi6qW18OS2dvDxQ9Q3SSoLvyRFwwJCntf4TUQw41
+Ag8a40VkwcDr55MSH+fGprS4GRS1FFfs+BiwWX8A0TB+9d1J1kr7mqAoSaw7R5eK
+zihXoHhQRODX6pYB7dnC/ikkfaTAl4BF5unFiWauHsSJe8uoJP8/CdBV4EzzwVYd
+Oh9UwzSiZHLnuvRDuxGw3hhYISr5b1yXZSkqv0Z37aL3ch2POdBi/I9B9ivAReGY
+vmQIIKdCVY8J7dV/jsgMRp+JqzNDhMAiARA/zIqL9N5zWCVqRB9CKxoJHRlYGmdb
+XXLV0fyxfB6EiYAlPWzFlIv8JH0CAwEAAaOCAQwwggEIMB0GA1UdDgQWBBTSddfV
+A914UqXmM1mS9XrA9bqsezCB2AYDVR0jBIHQMIHNgBTSddfVA914UqXmM1mS9XrA
+9bqse6GBqaSBpjCBozELMAkGA1UEBhMCRVMxDDAKBgNVBAgTA01BRDEPMA0GA1UE
+BxMGTWFkcmlkMQ4wDAYDVQQKEwVDaWJlcjEWMBQGA1UECxMNQ2liZXItT3BlblZQ
+TjERMA8GA1UEAxMIQ2liZXIgQ0ExDzANBgNVBCkTBnNlcnZlcjEpMCcGCSqGSIb3
+DQEJARYaY2FybG9zLmRvbWluZ3VlekBjaWJlci5jb22CCQDftBPM96Y7rjAMBgNV
+HRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQAPKhPmDpabP+A6htpLeU4be4dq
+t2ayznnPc8dKaRgEjxx1I/YtZ/DqQw7x8qUZhu7ekCRx7E/i16HrNmTfeEWzXzPn
+39glwpFuRjY4S16f+89tyqlzCUzz4KTMTdhH95t4yFEv/5qNvKPgtXRqWCAe9H2i
+T6C3Z0cXcJfTMJZ1IU5mWjHwGyyXfgeuxZ9FvyH5MoWpBnEUUEH4m5OYPydWnHWO
+HeZUHBO4pE1zXoJfM77MmQOB8Gai57M02Jgmqj1dnvsM4kxq/KzKTyCZWegABYso
+WOd0CK5knDCCfLFKquMkyvml5fnW0wXlwpbzxpOoJZ817Cybe6PASLArVMF/
+-----END CERTIFICATE-----
+</ca>
+
+<cert>
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 690 (0x2b2)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=ES, ST=MAD, L=Madrid, O=Ciber, OU=Ciber-OpenVPN, CN=Ciber CA/name=server/emailAddress=carlos.dominguez@ciber.com
+        Validity
+            Not Before: Aug  7 08:39:52 2020 GMT
+            Not After : Aug  5 08:39:52 2030 GMT
+        Subject: C=ES, ST=MAD, L=Madrid, O=Ciber, OU=Ciber-OpenVPN, CN=ammarcos2/name=server/emailAddress=carlos.dominguez@ciber.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:f5:6c:ba:8c:f2:71:0c:51:95:e5:c2:58:6a:3d:
+                    f3:b0:f5:7b:ff:eb:f9:2f:11:6c:c7:fb:10:14:7e:
+                    ff:c4:3a:e9:3e:02:05:45:bd:c3:86:f8:53:52:ab:
+                    f5:1c:ad:83:4f:68:f7:2a:93:81:fb:f1:a7:e2:bf:
+                    54:3b:fd:cd:48:ce:b3:ca:1f:d1:51:a8:64:a4:c4:
+                    a3:12:ca:91:c0:fb:5f:87:a9:0c:70:90:98:31:ae:
+                    94:bd:d7:6b:2a:67:17:4e:67:46:03:ad:4c:ae:8a:
+                    43:27:68:f8:76:b2:1f:1b:20:97:4e:f2:9e:c2:e4:
+                    80:13:93:32:96:e4:d6:39:d1:85:95:68:e1:07:7e:
+                    80:5a:da:70:6b:00:5b:40:f9:87:91:50:5f:14:01:
+                    01:2b:8a:10:c2:ae:c7:56:f4:7e:90:34:d0:cb:f4:
+                    67:93:d6:18:f2:d0:55:c7:e1:90:69:4c:b7:fd:30:
+                    de:78:8f:35:0f:a5:a9:50:35:1a:bb:65:0d:c4:9c:
+                    3d:4a:48:ef:5d:30:10:8d:6f:d9:c6:98:a6:fa:5e:
+                    71:e9:47:d0:34:81:ee:f8:4a:81:37:89:71:d7:df:
+                    1f:d3:36:80:96:58:cb:66:d5:83:d4:68:a5:7c:61:
+                    27:d5:e8:4f:f4:ab:b3:c2:e8:64:34:87:20:40:9a:
+                    0a:e5
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Comment: 
+                Easy-RSA Generated Certificate
+            X509v3 Subject Key Identifier: 
+                AA:4D:36:95:21:7E:8D:90:D6:52:81:99:53:B7:CC:46:6C:54:A2:FA
+            X509v3 Authority Key Identifier: 
+                keyid:D2:75:D7:D5:03:DD:78:52:A5:E6:33:59:92:F5:7A:C0:F5:BA:AC:7B
+                DirName:/C=ES/ST=MAD/L=Madrid/O=Ciber/OU=Ciber-OpenVPN/CN=Ciber CA/name=server/emailAddress=carlos.dominguez@ciber.com
+                serial:DF:B4:13:CC:F7:A6:3B:AE
+
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+            X509v3 Key Usage: 
+                Digital Signature
+            X509v3 Subject Alternative Name: 
+                DNS:ammarcos2
+    Signature Algorithm: sha256WithRSAEncryption
+         35:59:73:71:68:3a:b5:d5:c8:32:e8:d4:8a:e2:85:68:8d:9b:
+         79:99:48:46:25:cc:07:6d:a5:96:df:37:a5:f9:69:48:9d:18:
+         37:23:89:df:ee:75:90:0a:05:19:37:b3:6e:13:34:ec:c8:3e:
+         5b:91:d9:4b:2a:ce:52:ba:76:fa:4c:97:51:0e:02:07:71:b0:
+         bc:71:8e:0a:62:0f:88:53:d9:28:2f:a7:cd:86:e8:f4:af:8d:
+         8f:b5:d6:6c:6c:c4:2f:ff:e6:49:ce:c8:c0:bd:56:99:ed:70:
+         1c:ba:8c:bb:8f:c1:f3:79:6b:02:64:a1:85:0c:89:7f:6e:51:
+         1d:20:83:85:9a:c0:af:7f:89:f2:a5:05:8d:68:38:cc:fa:27:
+         25:d1:6b:64:96:af:ef:bc:12:6e:e4:54:cb:20:e7:cc:c2:fe:
+         af:d5:3c:ea:f5:9b:4f:2a:10:cf:c6:44:9d:c7:93:64:d7:b4:
+         56:8e:14:cf:b4:59:58:4b:4a:91:18:a7:6d:a2:86:a7:4f:aa:
+         64:23:44:e3:0d:8b:2e:4c:45:36:a7:3d:15:ca:ea:47:bd:a2:
+         b6:18:d3:3d:98:66:e3:d0:b2:02:42:00:c9:0d:54:ba:a1:81:
+         1e:7a:26:0e:73:21:5f:cb:75:65:f0:e0:64:3b:1c:c0:72:79:
+         2b:95:e3:fe
+-----BEGIN CERTIFICATE-----
+MIIFNzCCBB+gAwIBAgICArIwDQYJKoZIhvcNAQELBQAwgaMxCzAJBgNVBAYTAkVT
+MQwwCgYDVQQIEwNNQUQxDzANBgNVBAcTBk1hZHJpZDEOMAwGA1UEChMFQ2liZXIx
+FjAUBgNVBAsTDUNpYmVyLU9wZW5WUE4xETAPBgNVBAMTCENpYmVyIENBMQ8wDQYD
+VQQpEwZzZXJ2ZXIxKTAnBgkqhkiG9w0BCQEWGmNhcmxvcy5kb21pbmd1ZXpAY2li
+ZXIuY29tMB4XDTIwMDgwNzA4Mzk1MloXDTMwMDgwNTA4Mzk1MlowgaQxCzAJBgNV
+BAYTAkVTMQwwCgYDVQQIEwNNQUQxDzANBgNVBAcTBk1hZHJpZDEOMAwGA1UEChMF
+Q2liZXIxFjAUBgNVBAsTDUNpYmVyLU9wZW5WUE4xEjAQBgNVBAMTCWFtbWFyY29z
+MjEPMA0GA1UEKRMGc2VydmVyMSkwJwYJKoZIhvcNAQkBFhpjYXJsb3MuZG9taW5n
+dWV6QGNpYmVyLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPVs
+uozycQxRleXCWGo987D1e//r+S8RbMf7EBR+/8Q66T4CBUW9w4b4U1Kr9Rytg09o
+9yqTgfvxp+K/VDv9zUjOs8of0VGoZKTEoxLKkcD7X4epDHCQmDGulL3XaypnF05n
+RgOtTK6KQydo+HayHxsgl07ynsLkgBOTMpbk1jnRhZVo4Qd+gFracGsAW0D5h5FQ
+XxQBASuKEMKux1b0fpA00Mv0Z5PWGPLQVcfhkGlMt/0w3niPNQ+lqVA1GrtlDcSc
+PUpI710wEI1v2caYpvpecelH0DSB7vhKgTeJcdffH9M2gJZYy2bVg9RopXxhJ9Xo
+T/Srs8LoZDSHIECaCuUCAwEAAaOCAXAwggFsMAkGA1UdEwQCMAAwLQYJYIZIAYb4
+QgENBCAWHkVhc3ktUlNBIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQU
+qk02lSF+jZDWUoGZU7fMRmxUovowgdgGA1UdIwSB0DCBzYAU0nXX1QPdeFKl5jNZ
+kvV6wPW6rHuhgamkgaYwgaMxCzAJBgNVBAYTAkVTMQwwCgYDVQQIEwNNQUQxDzAN
+BgNVBAcTBk1hZHJpZDEOMAwGA1UEChMFQ2liZXIxFjAUBgNVBAsTDUNpYmVyLU9w
+ZW5WUE4xETAPBgNVBAMTCENpYmVyIENBMQ8wDQYDVQQpEwZzZXJ2ZXIxKTAnBgkq
+hkiG9w0BCQEWGmNhcmxvcy5kb21pbmd1ZXpAY2liZXIuY29tggkA37QTzPemO64w
+EwYDVR0lBAwwCgYIKwYBBQUHAwIwCwYDVR0PBAQDAgeAMBQGA1UdEQQNMAuCCWFt
+bWFyY29zMjANBgkqhkiG9w0BAQsFAAOCAQEANVlzcWg6tdXIMujUiuKFaI2beZlI
+RiXMB22llt83pflpSJ0YNyOJ3+51kAoFGTezbhM07Mg+W5HZSyrOUrp2+kyXUQ4C
+B3GwvHGOCmIPiFPZKC+nzYbo9K+Nj7XWbGzEL//mSc7IwL1Wme1wHLqMu4/B83lr
+AmShhQyJf25RHSCDhZrAr3+J8qUFjWg4zPonJdFrZJav77wSbuRUyyDnzML+r9U8
+6vWbTyoQz8ZEnceTZNe0Vo4Uz7RZWEtKkRinbaKGp0+qZCNE4w2LLkxFNqc9Fcrq
+R72ithjTPZhm49CyAkIAyQ1UuqGBHnomDnMhX8t1ZfDgZDscwHJ5K5Xj/g==
+-----END CERTIFICATE-----
+</cert>
+
+<key>
+-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQD1bLqM8nEMUZXl
+wlhqPfOw9Xv/6/kvEWzH+xAUfv/EOuk+AgVFvcOG+FNSq/UcrYNPaPcqk4H78afi
+v1Q7/c1IzrPKH9FRqGSkxKMSypHA+1+HqQxwkJgxrpS912sqZxdOZ0YDrUyuikMn
+aPh2sh8bIJdO8p7C5IATkzKW5NY50YWVaOEHfoBa2nBrAFtA+YeRUF8UAQErihDC
+rsdW9H6QNNDL9GeT1hjy0FXH4ZBpTLf9MN54jzUPpalQNRq7ZQ3EnD1KSO9dMBCN
+b9nGmKb6XnHpR9A0ge74SoE3iXHX3x/TNoCWWMtm1YPUaKV8YSfV6E/0q7PC6GQ0
+hyBAmgrlAgMBAAECggEAK1EAcAYOW90+dqnhjwbWLwJ020ub1Gnf6D/wq51qqQi4
+x//1TETc8MJ9elbtUR1y0p41GaelRoF1Xzjjth7qj5Ij+2W4PRBaixZFrfhg103G
+o5v7nRZ4NjSY/hS6TmaZn3XszpNUuG2gwqDtUY3InbIX4pBB4yYPUOUnBajoApYW
+4JLl9M+T4Hc8IBGIqHV5O2RwAgAaCfTzaPR/QnSwQnuhd5v4TjFUsCoYX30mFw6Z
+RWe5kgI9SWl+6lSgRkrP6T17FgWwNpuWxZiNFO7arT745MAjO2BsleNx1BuMJT6H
+7sT8qpnO+jjws4d9CtXBJ5B2UDZUSR+vDLD39eluIQKBgQD9BAFJYseMSiNHU9PH
+w/2sAAtnjvv1+XvGaRJJJju/uZdJElrj+QxwnhUSvBU5lT4SLeHZ3rknhSLxYFRJ
+uvJYoaLFnsc9OkEvpKYHuzSnMnC7uoWgvHW7XjETmh0+rw0ii4+gkHXgRZjUgBIi
+rjK7v+XvMI19hEgLwnXiXsfN/QKBgQD4Uc1uh1sc4CfSMaEbVYq0OEjDw/Xh6w6M
+QtFF1+30+CAhvFtCRIDeRxS1Do2avyZBVKz9nPYBPlCxbx/yBj6mFfPFt9bPXb31
+Zj9CdsaxrNjLPHrJyJI7vVUrI/n4q1yNrx7SC3QAqdv4VRBoEBg/Clqv5Ro9QBwg
+IjcHVF4RCQKBgQCw6hkAOFqxhLFwUXQXDbsVhp5y1e7mCoF6tcN8dIh4wgu/o178
+YwtIv7CaffsVXX6edYijr/GlaZmKT8IAIAEO6k6HgkNsU4x7BNS3OTZS5pkfGwgO
+4VgtIGqOe0eRqhM0IYPXUMuret6nT7nemBGPaFodysRUjKdX2axWEdIB/QKBgHOB
+8bJJSiubZUqUBWHmn5eHWumdPMHzChhaeGgpsimyRZgLutOPc/ZxUAOMmnfyFIRt
+M+7g1Vnst7Jhg5WcLAYrzfIZutVIwLTm8+Qhxfkd8tZO8rrsDoG1Z2mi2YM/itTp
+Mcf4xeQNHyJbxz7wxaaFVXvecR8utCaKY9iH+R2pAoGBAOCe+deMu41p0u7pj1L8
+lfYTSKTGz43U/YQ4UuFXCmt/NZZ8tSIr8oDQeemoBrz0socGcXDAyyxr7ZVEacQf
+WWHp0Pxb06LSDp9kYLTC+WDG0dsQrGj+AwJ/22FHyH/gnUXD0mGP+VKrFYarvxEb
+5MDQWUwdT4EkVEnTMy7cGXk9
+-----END PRIVATE KEY-----
+</key>
+
+# Verify server certificate by checking
+# that the certicate has the nsCertType
+# field set to "server".  This is an
+# important precaution to protect against
+# a potential attack discussed here:
+#  http://openvpn.net/howto.html#mitm
+#
+# To use this feature, you will need to generate
+# your server certificates with the nsCertType
+# field set to "server".  The build-key-server
+# script in the easy-rsa folder will do this.
+ns-cert-type server
+
+# If a tls-auth key is used on the server
+# then every client must also have the key.
+;tls-auth ta.key 1
+
+# Select a cryptographic cipher.
+# If the cipher option is used on the server
+# then you must also specify it here.
+;cipher x
+
+# Enable compression on the VPN link.
+# Don't enable this unless it is also
+# enabled in the server config file.
+comp-lzo
+
+# Set log file verbosity.
+verb 3
+
+# Silence repeating messages
+;mute 20
