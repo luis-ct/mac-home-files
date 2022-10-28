@@ -1,7 +1,8 @@
+#!/bin/bash
 
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc   # --> Read /etc/bashrc, if present.
-fi
+# if [ -f /etc/bashrc ]; then
+# 	. /etc/bashrc   # --> Read /etc/bashrc, if present.
+# fi
 
 if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
 	source /usr/local/git/contrib/completion/git-completion.bash
@@ -14,6 +15,7 @@ fi
 
 # aliasses Vagrant
 ##################
+
 vagrant_generic() {
 	if [ "$#" -eq 1 ]; then
 		COMMAND=$1
@@ -60,6 +62,10 @@ teamcity_up() {
 	./runAll.sh start
 }
 
+teamcity_down() {
+	cd $SPACES/TeamCity/bin
+	./runAll.sh stop
+}
 
 # aliasses jenkins
 ###################
@@ -305,3 +311,39 @@ httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grab
 #   -------------------------------------------------------------------
 httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
 
+#   ---------------------------------------
+#   9. xCode 
+#   ---------------------------------------
+covid () {
+	du -sh /Users/luiscanadas/Library/Developer/Xcode/DerivedData/
+	rm -rf /Users/luiscanadas/Library/Developer/Xcode/DerivedData/*
+	du -sh /Users/luiscanadas/Library/Developer/Xcode/DerivedData/
+	du -sh /Users/luiscanadas/Library/Developer/Xcode/Archives/
+	rm -rf /Users/luiscanadas/Library/Developer/Xcode/Archives/*
+	du -sh /Users/luiscanadas/Library/Developer/Xcode/Archives/
+	du -sh /Users/luiscanadas/Library/Developer/Devices/
+	rm -rf /Users/luiscanadas/Library/Developer/Devices/*
+	du -sh /Users/luiscanadas/Library/Developer/Devices/
+}
+
+alias xc='xed .'
+
+#   ---------------------------------------
+#   10. Ggit 
+#   ---------------------------------------
+cleanup_git_project_branches () {
+	git branch -d $(git branch --merged=master | grep -v master)
+	git fetch --prune
+}
+
+remove_dsstores() {
+	find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+}
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+export PATH=/bin:/usr/bin:$PATH
+
+alias connect_to_vpn='osascript /Users/luiscanadas/WORKSPACES/PERSONAL/mac-home-files/connectVPN.scpt'
+alias disconnect_to_vpn='osascript /Users/luiscanadas/WORKSPACES/PERSONAL/mac-home-files/disconnectVPN.scpt'

@@ -1,28 +1,41 @@
+[user]
+	name = Luis Canadas
+	email = 
+
 [core]
 	editor = vim
+	fileMode = false
 	excludesfile = /Users/luiscanadas/.gitexcludes
 
 [alias]
-	br = branch
 	co = checkout
-	st = status
+	br = branch
 	ci = commit
+	st = status
+	gra = log --graph --full-history --all --pretty=format:"%h%x09%d%x20%s"
+	graa = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
+	graaa = log --graph --full-history --all --date=short --color --pretty=tformat:"%ad%x09%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
+	grs = log --graph --oneline
+	unstage = reset HEAD --
 	numstatbyuser = "!f() { \
-		git log --author=$1 --no-merges --pretty=\"\" --numstat | awk 'BEGIN { \
-				insertions = 0; \
-				deletions = 0; \
-			} { \
-				OFS=\":\"; \
-				insertions = insertions + $1; \
-				deletions = deletions + $2; \
-			} END { \
-				print \"INSERTIONS: \" insertions; \
-				print \"DELETIONS: \" deletions; \
-			}'; \
+			git log --author=$1 --no-merges --pretty=\"\" --numstat | awk 'BEGIN { \
+					insertions = 0; \
+					deletions = 0; \
+				} { \
+					OFS=\":\"; \
+					insertions = insertions + $1; \
+					deletions = deletions + $2; \
+				} END { \
+					print \"INSERTIONS: \" insertions; \
+					print \"DELETIONS: \" deletions; \
+				}'; \
 	}; f"
 	archive-master = "!f() { \
 		git archive master --prefix='project/' | gzip > master.tgz; \
 	}; f"
+	uis = update-index --skip-worktree
+	uins = update-index --no-skip-worktree
+
 
 [color]
 	branch = auto
@@ -46,4 +59,14 @@
 	untracked = cyan
 
 [commit]
-	template = ~/.git-commit-template.txt
+	template = /Users/luiscanadas/WORKSPACES/PERSONAL/mac-home-files/git-commit-template/.git-commit-template.txt
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[pull]
+	rebase = true
