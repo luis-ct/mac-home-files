@@ -1,11 +1,11 @@
 [user]
-	name = <name>
-	email = <email>
+	name = Luis Cañadas 
+	email = luis.canadas@innocv.com
 
 [core]
 	editor = vim
 	fileMode = false
-	excludesfile = /path/to/.gitexcludes
+	excludesfile = ~/.gitexcludes
 
 [alias]
 	co = checkout
@@ -14,6 +14,7 @@
 	st = status
 	gra = log --graph --full-history --all --pretty=format:"%h%x09%d%x20%s"
 	graa = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
+	graaa = log --graph --full-history --all --date=short --color --pretty=tformat:"%ad%x09%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
 	grs = log --graph --oneline
 	unstage = reset HEAD --
 	numstatbyuser = "!f() { \
@@ -32,6 +33,8 @@
 	archive-master = "!f() { \
 		git archive master --prefix='project/' | gzip > master.tgz; \
 	}; f"
+	uis = update-index --skip-worktree
+	uins = update-index --no-skip-worktree
 
 [color]
 	branch = auto
@@ -55,7 +58,7 @@
 	untracked = cyan
 
 [commit]
-	template = /path/to/git-commit-template/.git-commit-template.txt
+	template = ~/WORKSPACES/PERSONAL/mac-home-files/git-commit-template/.git-commit-template.txt
 
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -64,3 +67,6 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
+[pull]
+    rebase = true
