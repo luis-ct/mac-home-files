@@ -1,6 +1,7 @@
 [user]
 	name = Luis Cañadas 
 	email = luis.canadas@innocv.com
+	useConfigOnly = false
 
 [core]
 	editor = vim
@@ -35,6 +36,9 @@
 	}; f"
 	uis = update-index --skip-worktree
 	uins = update-index --no-skip-worktree
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 
 [color]
 	branch = auto
@@ -70,3 +74,8 @@
 
 [pull]
     rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

@@ -33,13 +33,31 @@ DATOS=/Volumes/Datos
 PERSONAL=$DATOS/PERSONAL
 VAGRANT=$DATOS/VAGRANT
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 #   Set Paths
 #   ------------------------------------------------------------
-# export PATH="$PATH:/usr/local/bin/"
-# export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.fastlane/bin:$PATH"
+
+export PATH=/bin:/usr/bin:$PATH
+export PATH=/Users/luiscanadas/.mint/bin:$PATH
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+export PATH=/Users/luiscanadas/.rvm/gems/ruby-2.7.2/bin:$PATH
+source /Users/luiscanadas/.rvm/scripts/rvm
+rvm use ruby-2.7.2 --default
+
+#export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
 
 # JAVA HOME
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -130,5 +148,3 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
-

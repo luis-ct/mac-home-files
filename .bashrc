@@ -4,12 +4,12 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc   # --> Read /etc/bashrc, if present.
 fi
 
-if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
-	source /usr/local/git/contrib/completion/git-completion.bash
+if [ -f /Users/luiscanadas/WORKSPACES/STUFF/git/contrib/completion/git-completion.bash ]; then
+	source /Users/luiscanadas/WORKSPACES/STUFF/git/contrib/completion/git-completion.bash
 fi
 
-if [ -f /usr/local/git/contrib/completion/git-prompt.sh ]; then
-	source /usr/local/git/contrib/completion/git-prompt.sh
+if [ -f /Users/luiscanadas/WORKSPACES/STUFF/git/contrib/completion/git-prompt.sh ]; then
+	source /Users/luiscanadas/WORKSPACES/STUFF/git/contrib/completion/git-prompt.sh
 fi
 
 
@@ -314,13 +314,13 @@ httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect
 #   ---------------------------------------
 #   9. xCode 
 #   ---------------------------------------
-clean_xcode_data () {
-	du -sh /Users/admin/Library/Developer/Xcode/DerivedData/
-	rm -rf /Users/admin/Library/Developer/Xcode/DerivedData/*
-	du -sh /Users/admin/Library/Developer/Xcode/DerivedData/
-	du -sh /Users/admin/Library/Developer/Xcode/Archives/
-	rm -rf /Users/admin/Library/Developer/Xcode/Archives/*
-	du -sh /Users/admin/Library/Developer/Xcode/Archives/
+covid() {
+	du -sh /Users/luiscanadas/Library/Developer/Xcode/DerivedData/
+	rm -rf /Users/luiscanadas/Library/Developer/Xcode/DerivedData/*
+	du -sh /Users/luiscanadas/Library/Developer/Xcode/DerivedData/
+#	du -sh /Users/admin/Library/Developer/Xcode/Archives/
+#	rm -rf /Users/admin/Library/Developer/Xcode/Archives/*
+#	du -sh /Users/admin/Library/Developer/Xcode/Archives/
 }
 
 alias xc='xed .'
@@ -328,7 +328,7 @@ alias xc='xed .'
 #   ---------------------------------------
 #   10. Ggit 
 #   ---------------------------------------
-cleanup_git_project_branches () {
+cleanup_git_project_branches() {
 	git branch -d $(git branch --merged=master | grep -v master)
 	git fetch --prune
 }
@@ -337,7 +337,4 @@ remove_dsstores() {
 	find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
 }
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
 
-export PATH=/bin:/usr/bin:$PATH
